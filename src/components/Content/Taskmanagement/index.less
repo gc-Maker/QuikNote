@@ -1,0 +1,53 @@
+.task-control {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 4px 10px;
+    // backdrop-filter: blur(5px);
+
+    .button {
+        background: rgba(74, 140, 255, 0.7);
+        color: white;
+        border: none;
+        padding: 0 8px;
+        border-radius: 6px;
+        width: 30px;
+        height: 20px;
+
+        &:hover {
+            background: rgba(74, 140, 255, 0.9);
+            cursor: pointer;
+        }
+    }
+
+    .select {
+        background: rgba(100, 100, 100, 0.8);
+        outline: none;
+        width: 60px;
+        .option {
+            background: rgba(50, 50, 50, 0.8);
+
+            span {
+                position: relative;
+                color: red;
+                &::before {
+                    content: "12";
+                    // position: absolute;
+                    // left: 10px;
+                }
+                &::after {
+                    content: "11";
+                }
+            }
+        }
+    }
+
+    .input {
+        background: transparent;
+        outline: none;
+        border: 2px solid rgba(50, 50, 50, 0.8);
+        flex-grow: 1;
+    }
+}
