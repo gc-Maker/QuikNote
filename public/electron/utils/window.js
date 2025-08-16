@@ -22,22 +22,23 @@ const defaultParams = {
     },
 };
 
-function createWindows(localData) {
-    const { windowDatas = [] } = localData;
-    if (!windowDatas.length) {
+function createWindows(windows) {
+    if (!windows.length) {
         return [createDefaultWindow()];
     } else {
-        return windowDatas.map(createWindow);
+        return windows.map(createWindow);
     }
 }
 
-function createWindow(windowData) {
-    const { bounds, customId } = windowData;
+function createWindow(window) {
+    const bounds = window.getBounds();
+    const customId = window.getCustomId();
     const browserWindow = new BrowserWindow({
         ...defaultParams,
         ...bounds,
     });
     browserWindow.customId = customId;
+    console.log(browserWindow.customId, "customId");
     loadHTML(browserWindow);
     return browserWindow;
 }
