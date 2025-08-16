@@ -12,14 +12,16 @@ interface Props {
 
 class TaskManagement extends PureComponent<Props> {
     handleAdd = () => {
+        const payload = {
+            id: v4(),
+            content: "",
+            status: TaskStatus.TODO,
+        };
         this.props.dispatch({
             type: NotesAction.ADD,
-            payload: {
-                id: v4(),
-                content: "",
-                status: TaskStatus.TODO,
-            },
+            payload,
         });
+        window.electronAPI.modifyNotes(NotesAction.ADD, [payload]);
     };
 
     render() {
