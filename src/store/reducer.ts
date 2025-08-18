@@ -22,6 +22,8 @@ function notesReducer(
                     return note;
                 }
             });
+        case NotesAction.INIT:
+            return payload;
         default:
             return state;
     }

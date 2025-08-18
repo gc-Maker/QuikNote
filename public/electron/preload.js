@@ -5,4 +5,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
     createWindow: () => ipcRenderer.send("create-window"), // 创建新窗口
     modifyNotes: (type, payloads) =>
         ipcRenderer.send("modify-notes", type, payloads),
+    getData: async () => {
+        return ipcRenderer.invoke("get-data");
+    },
 });

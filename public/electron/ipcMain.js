@@ -1,4 +1,4 @@
-const { ipcMain, Tray, Menu } = require("electron");
+const { ipcMain, Tray, Menu, BrowserWindow } = require("electron");
 const path = require("path");
 const { createDefaultWindow } = require("./utils/window");
 const { NoteAction } = require("./type/NoteAction");
@@ -32,11 +32,12 @@ function bindIpcEvent(windows) {
     });
 
     ipcMain.on("modify-notes", (e, type, payloads) => {
-        const customId = e.sender.customId;
+        const win = BrowserWindow.fromWebContents(e.sender);
+        const customId = win.customId;
         switch (type) {
             case NoteAction.ADD:
                 const window = store.getWindows().find((window) => {
-                    return window.customId === customId;
+                    return window.getCustomId() === customId;
                 });
                 if (window) {
                     const newNotes = store.getNotes().concat(
@@ -63,6 +64,24 @@ function bindIpcEvent(windows) {
             default:
                 return;
         }
+    });
+
+    ipcMain.handle("get-data", (e) => {
+        const win = BrowserWindow.fromWebContents(e.sender);
+        const customId = win.customId;
+        const windows = store.getWindows();
+        const window = windows.find((win) => win.getCustomId() === customId);
+        const result = {
+            notes: [],
+        };
+        if (window) {
+            const noteIdSet = new Set(window.getNoteIds());
+            const notes = store.getNotes();
+            result.notes = notes.filter((note) => {
+                return noteIdSet.has(note.getId());
+            });
+        }
+        return result;
     });
 }
 

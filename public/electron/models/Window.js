@@ -4,9 +4,10 @@ class Window {
     #noteIds = [];
 
     constructor(params) {
-        const { bounds, customId } = params;
+        const { bounds, customId, noteIds } = params;
         this.#bounds = bounds;
         this.#customId = customId;
+        this.#noteIds = noteIds;
     }
 
     getBounds() {

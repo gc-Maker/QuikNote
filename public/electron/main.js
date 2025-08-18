@@ -1,4 +1,4 @@
-const { app } = require("electron");
+const { app, ipcMain } = require("electron");
 const { bindIpcEvent } = require("./ipcMain");
 const { autoSave } = require("./utils/autoSave");
 const { createWindows, createDefaultWindow } = require("./utils/window");
@@ -25,7 +25,6 @@ function main() {
             ],
             noteDatas: [],
         });
-        console.log(store);
     };
 
     try {
@@ -33,13 +32,10 @@ function main() {
         if (localData) {
             store.initData(JSON.parse(localData));
             windows = createWindows(store.getWindows());
-            console.log("if wuliangjie");
         } else {
-            console.log("else wuliangjie");
             handleDefault();
         }
     } catch (error) {
-        console.log("catch wuliangjie");
         handleDefault();
     }
 

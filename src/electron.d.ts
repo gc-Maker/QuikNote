@@ -7,6 +7,9 @@ declare global {
             minimize: () => void;
             createWindow: () => void;
             modifyNotes: (type: NotesAction, payloads: NoteItem[]) => void;
+            getData: () => {
+                notes: NoteItem[];
+            };
         };
     }
 }
