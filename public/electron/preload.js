@@ -6,6 +6,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
     modifyNotes: (type, payloads) =>
         ipcRenderer.send("modify-notes", type, payloads),
     getData: async () => {
-        return ipcRenderer.invoke("get-data");
+        const res = await ipcRenderer.invoke("get-data");
+        console.log(res, "wuliangjie");
+        return res;
     },
 });
