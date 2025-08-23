@@ -3,7 +3,7 @@ const path = require("path");
 const { createDefaultWindow } = require("./utils/window");
 const { NoteAction } = require("./type/NoteAction");
 const { store } = require("./models/Store");
-const { Note } = require("./models/Note");
+const { Note, serialNotes } = require("./models/Note");
 function bindIpcEvent(windows) {
     ipcMain.on("minimize-window", (e) => {
         const curWin = e.sender;
@@ -77,9 +77,11 @@ function bindIpcEvent(windows) {
         if (window) {
             const noteIdSet = new Set(window.getNoteIds());
             const notes = store.getNotes();
-            result.notes = notes.filter((note) => {
-                return noteIdSet.has(note.getId());
-            });
+            result.notes = serialNotes(
+                notes.filter((note) => {
+                    return noteIdSet.has(note.getId());
+                })
+            );
         }
         return result;
     });
