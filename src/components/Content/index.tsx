@@ -1,19 +1,16 @@
 import { PureComponent } from "react";
 import style from "./index.less";
-// import StatusBar from "./StatusBar";
-import StickyNotes from "./StickyNotes";
-import Taskmanagement from "./Taskmanagement";
+import ToolBar from "./ToolBar";
 
-class Content extends PureComponent {
+class Header extends PureComponent {
     render() {
         return (
             <div className={style.container}>
-                {/* <StatusBar /> */}
-                <Taskmanagement />
-                <StickyNotes />
+                <div className={style.main}>QuikNote</div>
+                <ToolBar />
             </div>
         );
     }
 }
 
-export default Content;
+export default Header;
