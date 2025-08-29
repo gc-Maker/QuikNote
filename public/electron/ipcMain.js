@@ -45,11 +45,11 @@ function bindIpcEvent(windows) {
                             return new Note(payload);
                         })
                     );
-                    store.updateData("notes", newNotes);
+                    store.setNotes(newNotes);
                     window.setNoteIds(newNotes.map((item) => item.getId()));
                 }
                 break;
-            case NoteAction.UPDATE:
+            case NoteAction.UPDATE: {
                 const notes = store.getNotes();
                 notes.forEach((note) => {
                     const payload = payloads.find((payload) => {
@@ -61,6 +61,23 @@ function bindIpcEvent(windows) {
                     }
                 });
                 break;
+            }
+            case NoteAction.DELETE: {
+                const idSet = new Set(payloads.map((payload) => payload.id));
+                const notes = store.getNotes();
+                const windows = store.getWindows();
+                const newNotes = notes.filter((note) => {
+                    return !idSet.has(note.getId());
+                });
+                windows.forEach((window) => {
+                    const newNoteIds = window
+                        .getNoteIds()
+                        .filter((noteId) => !idSet.has(noteId));
+                    window.setNoteIds(newNoteIds);
+                });
+                store.setNotes(newNotes);
+                break;
+            }
             default:
                 return;
         }
