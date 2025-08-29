@@ -1,30 +1,79 @@
-.sticky-note {
-    height: 24px;
-    padding: 0 0 0 4px;
-    margin-bottom: 4px;
-    background-color: rgba(0, 50, 0, 0.2);
-    border-left: 4px solid;
-    display: flex;
-    align-items: center;
-    padding-right: 4px;
+.notes-container {
+    overflow-y: auto;
+    // height: calc(100% - 68px);
+    height: 100%;
 
-    input {
-        flex-grow: 1;
+    &::-webkit-scrollbar {
+        width: 8px;
     }
-}
 
-.todo {
-    border-left-color: #4a90e2;
-}
+    &::-webkit-scrollbar-track {
+        background: rgba(50, 30, 30, 0.4);
+        border: 1px solid rgba(80, 80, 100, 0.3);
+    }
 
-.processing {
-    border-left-color: #5cb85c;
-}
+    &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 8px;
+        border: 3px solid rgba(20, 20, 30, 0.5);
+        transition: all 0.3s ease;
+    }
 
-.done {
-    border-left-color: #999999;
-}
+    &::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+    }
 
-.overdue {
-    border-left-color: #e53e3e;
+    .sticky-note {
+        min-height: 24px;
+        margin-bottom: 4px;
+        background-color: rgba(0, 50, 0, 0.2);
+        border-left: 4px solid;
+        display: flex;
+        align-items: center;
+        position: relative;
+        text-align: right;
+
+        &::before {
+            content: attr(data-content);
+            visibility: hidden;
+            display: block;
+            padding: 4px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            min-height: 16px;
+            width: 100%;
+            height: 100%;
+            // font-size: 1.5em;
+            line-height: 1.5;
+        }
+
+        textarea {
+            position: absolute;
+            box-sizing: border-box;
+            resize: none;
+            width: 100%;
+            overflow: hidden;
+            padding: 4px;
+            height: 100%;
+            // font-size: 1.5em;
+            line-height: 1.5;
+        }
+    }
+
+    .todo {
+        border-left-color: #999999;
+    }
+
+    .processing {
+        border-left-color: #4a90e2;
+    }
+
+    .done {
+        border-left-color: #5cb85c;
+    }
+
+    .abondon {
+        border-left-color: #e53e3e;
+    }
 }
