@@ -8,19 +8,34 @@ import { getClassNameByStatus } from "./utils";
 import { Dispatch } from "redux";
 import { NotesAction } from "@/type/enum/NotesAction";
 import { TaskStatus } from "@/type/enum/TaskStatus";
+import _ from "lodash";
 
 interface Props {
     notes: NoteItem[];
     dispatch: Dispatch;
+    status: TaskStatus;
 }
 
 class StickyNotes extends PureComponent<Props> {
+    state = {
+        renderNotes: [] as NoteItem[],
+    };
+
+    static getDerivedStateFromProps(nextProps: Props) {
+        const { notes, status } = nextProps;
+        return {
+            renderNotes: notes.filter((note) => {
+                return note.status === status;
+            }),
+        };
+    }
+
     handleUpdate = (
-        e: React.ChangeEvent<HTMLInputElement>,
-        id: string,
-        status: TaskStatus
+        e: React.ChangeEvent<HTMLTextAreaElement>,
+        note: NoteItem
     ) => {
         const value = e.target.value;
+        const { id, status } = note;
         const payload = {
             id,
             content: value,
@@ -33,11 +48,11 @@ class StickyNotes extends PureComponent<Props> {
     };
 
     handleBlur = (
-        e: React.ChangeEvent<HTMLInputElement>,
-        id: string,
-        status: TaskStatus
+        e: React.ChangeEvent<HTMLTextAreaElement>,
+        note: NoteItem
     ) => {
         const value = e.target.value;
+        const { id, status } = note;
         const payload = {
             id,
             content: value,
@@ -46,21 +61,21 @@ class StickyNotes extends PureComponent<Props> {
         window.electronAPI.modifyNotes(NotesAction.UPDATE, [payload]);
     };
 
-    handleDelete = (id: string) => {
+    handleDelete = (note: NoteItem) => {
         this.props.dispatch({
             type: NotesAction.DELETE,
             payload: {
-                id,
+                id: note.id,
             },
         });
+        window.electronAPI.modifyNotes(NotesAction.DELETE, [note]);
     };
 
     render() {
-        const { notes } = this.props;
-        console.log(notes, "notes");
+        const { renderNotes } = this.state;
         return (
-            <div>
-                {notes.map((note) => {
+            <div className={style["notes-container"]}>
+                {renderNotes.map((note) => {
                     const { id, content, status } = note;
                     return (
                         <div
@@ -69,23 +84,24 @@ class StickyNotes extends PureComponent<Props> {
                                 style[getClassNameByStatus(status)]
                             )}
                             key={id}
+                            data-content={content.replace(/\n/g, "\n\u200B")}
                         >
-                            <input
+                            <textarea
                                 value={content}
                                 onChange={(e) => {
-                                    this.handleUpdate(e, id, status);
+                                    this.handleUpdate(e, note);
                                 }}
                                 onBlur={(e) => {
-                                    this.handleBlur(e, id, status);
+                                    this.handleBlur(e, note);
                                 }}
                             />
-                            <button
+                            {/* <button
                                 onClick={() => {
-                                    this.handleDelete(id);
+                                    this.handleDelete(note);
                                 }}
                             >
                                 删除
-                            </button>
+                            </button> */}
                         </div>
                     );
                 })}
@@ -95,7 +111,7 @@ class StickyNotes extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: State) => {
-    return { notes: state.notes };
+    return { notes: state.notes, status: state.status };
 };
 
 export default connect(mapStateToProps)(StickyNotes);
