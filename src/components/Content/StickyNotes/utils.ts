@@ -1,5 +1,4 @@
 import { TaskStatus } from "@/type/enum/TaskStatus";
-import { stat } from "fs";
 
 const getClassNameByStatus = (status: TaskStatus) => {
     switch (status) {
@@ -9,8 +8,8 @@ const getClassNameByStatus = (status: TaskStatus) => {
             return "todo";
         case TaskStatus.DONE:
             return "done";
-        case TaskStatus.OVERDUE:
-            return "overdue";
+        case TaskStatus.ABONDON:
+            return "abondon";
         default:
             return "todo";
     }
