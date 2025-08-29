@@ -5,17 +5,20 @@ import { Dispatch } from "redux";
 import { TaskStatus } from "@/type/enum/TaskStatus";
 import { v4 } from "uuid";
 import { NotesAction } from "@/type/enum/NotesAction";
+import { State } from "@/type/interface/State";
 
 interface Props {
     dispatch: Dispatch;
+    status: TaskStatus;
 }
 
 class TaskManagement extends PureComponent<Props> {
     handleAdd = () => {
+        const { status } = this.props;
         const payload = {
             id: v4(),
             content: "",
-            status: TaskStatus.TODO,
+            status: status,
         };
         this.props.dispatch({
             type: NotesAction.ADD,
@@ -27,7 +30,12 @@ class TaskManagement extends PureComponent<Props> {
     render() {
         return (
             <div className={style["task-control"]}>
-                <button className={style.button} onClick={this.handleAdd}>
+                <textarea rows={4}></textarea>
+                <footer>
+                    <div className={style["foot-left"]}></div>
+                    <div className={style["foot-right"]}></div>
+                </footer>
+                {/* <button className={style.button} onClick={this.handleAdd}>
                     +
                 </button>
                 <select className={style.select}>
@@ -46,14 +54,18 @@ class TaskManagement extends PureComponent<Props> {
                     <option value={TaskStatus.DONE} className={style.option}>
                         已办
                     </option>
-                    <option value={TaskStatus.OVERDUE} className={style.option}>
+                    <option value={TaskStatus.ABONDON} className={style.option}>
                         逾期
                     </option>
                 </select>
-                <input placeholder="搜索" className={style.input} />
+                <input placeholder="搜索" className={style.input} /> */}
             </div>
         );
     }
 }
 
-export default connect()(TaskManagement);
+const mapStateToProps = (state: State) => {
+    return { status: state.status };
+};
+
+export default connect(mapStateToProps)(TaskManagement);
