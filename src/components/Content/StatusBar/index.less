@@ -1,13 +1,17 @@
+@import url("../../../variables.less");
+
 .status-bar {
     display: flex;
-    justify-content: space-around;
-
+    padding-bottom: @status-padding-bottom;
     .status-item {
-        text-align: end;
+        text-align: center;
         position: relative;
-        margin-right: 4px;
+        margin-right: 6px;
         user-select: none;
-        // flex-grow: ;
+        min-width: calc(2em + 24px);
+        padding-left: 12px;
+        border-radius: 0.6em;
+        line-height: 1.5em;
 
         &::before {
             display: inline-block;
@@ -21,16 +25,24 @@
 
         &:hover {
             cursor: pointer;
+            opacity: 1;
+            background-color: rgba(255, 255, 255, 0.1);
         }
-    }
 
-    .processing-bar {
-        &::before {
-            border-color: #5cb85c;
+        &.active {
+            opacity: 1;
+            background-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
         }
     }
 
     .todo-bar {
+        &::before {
+            border-color: #999999;
+        }
+    }
+
+    .processing-bar {
         &::before {
             border-color: #4a90e2;
         }
@@ -38,7 +50,7 @@
 
     .done-bar {
         &::before {
-            border-color: #999999;
+            border-color: #5cb85c;
         }
     }
 
