@@ -50,8 +50,16 @@ class Store {
         return this.#data.windows;
     }
 
+    setWindows(windows) {
+        this.#data.windows = windows;
+    }
+
     getNotes() {
         return this.#data.notes;
+    }
+
+    setNotes(notes) {
+        this.#data.notes = notes;
     }
 }
 
