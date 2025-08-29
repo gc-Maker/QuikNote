@@ -1,3 +1,12 @@
+@import url("../../variables.less");
+
 .container {
-    height: calc(100% - 6px - 1rem);
+    -webkit-app-region: drag;
+    display: flex;
+    padding-bottom: @header-padding-bottom;
+    line-height: 1;
+}
+
+.main {
+    flex-grow: 1;
 }
