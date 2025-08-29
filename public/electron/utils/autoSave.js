@@ -12,7 +12,7 @@ function autoSave(windows, path) {
             oldWin.setBounds(newBounds);
             return oldWin;
         });
-        store.updateData("windows", newWindows);
+        store.setWindows(newWindows);
         store.save(path);
     }, 10000);
     return timer;
