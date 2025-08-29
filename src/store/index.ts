@@ -1,9 +1,10 @@
 import { createStore, combineReducers } from "redux";
-import { notesReducer } from "./reducer";
+import { notesReducer, statusReducer } from "./reducer";
 
 const store = createStore(
     combineReducers({
         notes: notesReducer,
+        status: statusReducer,
     })
 );
 
