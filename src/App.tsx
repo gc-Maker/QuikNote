@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { NotesAction } from "@/type/enum/NotesAction";
+import style from "./app.less";
 
 interface Props {
     dispatch: Dispatch;
@@ -20,10 +21,10 @@ class App extends PureComponent<Props> {
 
     render() {
         return (
-            <>
+            <div className={style.app}>
                 <Header />
                 <Content />
-            </>
+            </div>
         );
     }
 }
