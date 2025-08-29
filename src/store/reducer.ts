@@ -1,5 +1,7 @@
 import { NoteItem } from "@/type/interface/NoteItem";
 import { NotesAction } from "@/type/enum/NotesAction";
+import { TaskStatus } from "@/type/enum/TaskStatus";
+import { StatusAction } from "@/type/enum/StatusAction";
 
 function notesReducer(
     state: NoteItem[] = [],
@@ -29,4 +31,20 @@ function notesReducer(
     }
 }
 
-export { notesReducer };
+function statusReducer(
+    state: TaskStatus = TaskStatus.PROCESSING,
+    action: {
+        type: StatusAction;
+        payload: TaskStatus;
+    }
+) {
+    const { type, payload } = action;
+    switch (type) {
+        case StatusAction.ChangeStatus:
+            return payload;
+        default:
+            return state;
+    }
+}
+
+export { notesReducer, statusReducer };
